@@ -31,8 +31,7 @@ namespace UsuarioApi
         public void ConfigureServices(IServiceCollection services)
         {
             //injeção
-            services.AddDbContext<UserDbContext>(opts => opts.UseNpgsql(Configuration.GetConnectionString("UsuarioConnection"), opts =>
-             opts.SetPostgresVersion(new Version("9.4"))));
+            services.AddDbContext<UserDbContext>(opts => opts.UseSqlServer(Configuration.GetConnectionString("UsuarioConnection")));
             //injeção
             services.AddIdentity<IdentityUser<int>, IdentityRole<int>>(
                 opt => opt.SignIn.RequireConfirmedAccount = true
