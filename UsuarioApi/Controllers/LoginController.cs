@@ -37,5 +37,13 @@ namespace UsuarioApi.Controllers
             return Ok(resultado.Successes.FirstOrDefault());
         }
 
+        [HttpPost("/efetua-reset")]
+        public IActionResult  ResetaSenhaUsuario(EfetuaResetRequest request)
+        {
+            Result resultado = _loginService.ResetSenhaUsuario(request);
+            if (resultado.IsFailed) return Unauthorized(resultado.Errors);
+            return Ok(resultado.Successes.FirstOrDefault());
+        }
+
     }
 }
