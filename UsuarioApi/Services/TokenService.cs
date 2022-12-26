@@ -10,12 +10,13 @@ namespace UsuarioApi.Services
 {
     public class TokenService
     {
-        public Token CreateToken(IdentityUser<int> usuario)
+        public Token CreateToken(IdentityUser<int> usuario, string role)
         {
             Claim[] direitosUsuario = new Claim[]
             {
                 new Claim("username",usuario.UserName),
-                new Claim("id",usuario.Id.ToString())
+                new Claim("id",usuario.Id.ToString()),
+                new Claim(ClaimTypes.Role, role)
             };
 
             //gerar chave
