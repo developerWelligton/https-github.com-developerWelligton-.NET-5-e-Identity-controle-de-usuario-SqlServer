@@ -48,6 +48,8 @@ namespace UsuarioApi
             services.AddScoped<LoginService, LoginService>();
             //injeção
             services.AddScoped<TokenService,TokenService>();    
+
+
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }

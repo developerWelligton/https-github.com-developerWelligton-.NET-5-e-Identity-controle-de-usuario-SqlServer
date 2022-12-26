@@ -18,6 +18,8 @@ using filmesAPIalura.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using filmesAPIalura.Authorization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace filmesAPIalura
 {
@@ -57,6 +59,16 @@ namespace filmesAPIalura
                     ClockSkew = TimeSpan.Zero
                 };
             });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("IdadeMinima", policy =>
+                {
+                    policy.Requirements.Add(new IdadeMinimaRequirement(18));
+                });
+            });
+
+            services.AddSingleton<IAuthorizationHandler, IdadeMinimaHandler>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
