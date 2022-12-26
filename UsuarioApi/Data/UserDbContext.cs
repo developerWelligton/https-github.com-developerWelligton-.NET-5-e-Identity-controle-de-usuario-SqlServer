@@ -52,7 +52,7 @@ namespace UsuarioApi.Data
 
             builder.Entity<IdentityUserRole<int>>().HasData(
                 new IdentityUserRole<int> { RoleId = 99999, UserId = 99999 }
-                );
+                ); 
         }
     }
 }
