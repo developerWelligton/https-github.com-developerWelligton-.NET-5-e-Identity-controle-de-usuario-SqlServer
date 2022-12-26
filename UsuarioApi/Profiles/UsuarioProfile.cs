@@ -16,6 +16,7 @@ namespace UsuarioApi.Profiles
         {
             CreateMap<CreateUsuarioDto, Usuario>();
             CreateMap<Usuario, IdentityUser<int>>();
+            CreateMap<Usuario, CustomIdentityUser>();
         }
 
     }

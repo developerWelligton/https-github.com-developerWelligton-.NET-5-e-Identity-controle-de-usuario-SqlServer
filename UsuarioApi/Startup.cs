@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using UsuarioApi.Data;
+using UsuarioApi.Models;
 using UsuarioApi.Services;
 
 namespace UsuarioApi
@@ -33,7 +34,7 @@ namespace UsuarioApi
             //injeção
             services.AddDbContext<UserDbContext>(opts => opts.UseSqlServer(Configuration.GetConnectionString("UsuarioConnection")));
             //injeção
-            services.AddIdentity<IdentityUser<int>, IdentityRole<int>>(
+            services.AddIdentity<CustomIdentityUser, IdentityRole<int>>(
                 opt => opt.SignIn.RequireConfirmedAccount = true
                 )
                 .AddEntityFrameworkStores<UserDbContext>()

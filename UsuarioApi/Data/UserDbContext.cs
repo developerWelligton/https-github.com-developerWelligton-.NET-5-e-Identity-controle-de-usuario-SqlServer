@@ -6,10 +6,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using UsuarioApi.Models;
 
 namespace UsuarioApi.Data
 {
-    public class UserDbContext : IdentityDbContext<IdentityUser<int>, IdentityRole<int>, int>
+    public class UserDbContext : IdentityDbContext<CustomIdentityUser, IdentityRole<int>, int>
     {
         private IConfiguration _configuration;
         public UserDbContext(DbContextOptions<UserDbContext> opt, IConfiguration configuration) : base(opt)
@@ -22,7 +23,7 @@ namespace UsuarioApi.Data
             base.OnModelCreating(builder);
 
             //Role fora do fluxo de cadastro
-            IdentityUser<int> admin = new IdentityUser<int>
+            CustomIdentityUser admin = new CustomIdentityUser
             {
                 UserName = "admin",
                 NormalizedUserName = "ADMIN",
@@ -33,12 +34,12 @@ namespace UsuarioApi.Data
                 Id = 99999
             };
 
-            PasswordHasher<IdentityUser<int>> hasher = new PasswordHasher<IdentityUser<int>>();
+            PasswordHasher<CustomIdentityUser> hasher = new PasswordHasher<CustomIdentityUser>();
 
             admin.PasswordHash = hasher.HashPassword(admin,
                 _configuration.GetValue<string>("admininfo:passoword"));
 
-            builder.Entity<IdentityUser<int>>().HasData(admin);
+            builder.Entity<CustomIdentityUser>().HasData(admin);
 
             //role admin
             builder.Entity<IdentityRole<int>>().HasData(
