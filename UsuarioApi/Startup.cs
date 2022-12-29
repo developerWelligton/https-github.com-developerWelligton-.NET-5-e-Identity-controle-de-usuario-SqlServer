@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using UsuarioApi.Data;
 using UsuarioApi.Models;
@@ -21,6 +22,7 @@ namespace UsuarioApi
 {
     public class Startup
     {
+        private readonly string _MyAllowSpecificOrigins = "MyAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -47,10 +49,20 @@ namespace UsuarioApi
             //injeção
             services.AddScoped<LoginService, LoginService>();
             //injeção
-            services.AddScoped<TokenService,TokenService>();    
+            services.AddScoped<TokenService,TokenService>();
+            services.AddCors(option => {
+                option.AddPolicy("AllowSpecificOrigin", policy => policy.WithOrigins("http://localhost:4200"));
+                option.AddPolicy("AllowGetMethod", policy => policy.WithMethods("POST"));
+            });
+            services.AddControllers(options =>
+            {
+                var jsonInputFormatter = options.InputFormatters
+                    .OfType<Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter>()
+                    .Single();
+                jsonInputFormatter.SupportedMediaTypes.Add("application/csp-report");
+            }
+  );
 
-
-            services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
@@ -62,16 +74,20 @@ namespace UsuarioApi
                 app.UseDeveloperExceptionPage(); 
             }
 
-            app.UseHttpsRedirection();
+            
 
             app.UseRouting();
+            app.UseCors(
+          options => options.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials());
 
+              
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+            //app.UseHttpsRedirection();
         }
     }
 }

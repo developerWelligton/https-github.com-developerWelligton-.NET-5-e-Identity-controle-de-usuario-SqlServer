@@ -1,5 +1,6 @@
 ﻿
 using FluentResults;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,9 @@ namespace UsuarioApi.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [EnableCors("MyAllowSpecificOrigins")]
+    [Produces("application/json")]
+    [Consumes("application/json")]
     public class LoginController : ControllerBase
     {
         private LoginService _loginService;
@@ -21,6 +25,9 @@ namespace UsuarioApi.Controllers
             _loginService = loginService;
         }
 
+
+
+        [EnableCors]
         [HttpPost]
         public IActionResult LogaUsuario (LoginRequest request)
         {
