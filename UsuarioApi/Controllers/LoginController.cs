@@ -35,7 +35,7 @@ namespace UsuarioApi.Controllers
             if (resultado.IsFailed) return Unauthorized(resultado.Errors.FirstOrDefault());
             return Ok(resultado.Successes.FirstOrDefault());
         }
-
+        [EnableCors]
         [HttpPost("/solicita-reset")]
         [Obsolete]
         public IActionResult SolicitaResetSenhaUsuario(SolicitaResetRequest request)
@@ -44,7 +44,7 @@ namespace UsuarioApi.Controllers
             if (resultado.IsFailed) return Unauthorized(resultado.Errors);
             return Ok(resultado.Successes.FirstOrDefault());
         }
-
+        [EnableCors]
         [HttpPost("/efetua-reset")]
         public IActionResult  ResetaSenhaUsuario(EfetuaResetRequest request)
         {
