@@ -37,6 +37,7 @@ namespace UsuarioApi.Controllers
         }
 
         [HttpPost("/solicita-reset")]
+        [Obsolete]
         public IActionResult SolicitaResetSenhaUsuario(SolicitaResetRequest request)
         {
             Result resultado = _loginService.SolicitaResetSenhaUsuario(request);

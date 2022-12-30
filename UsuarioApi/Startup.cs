@@ -21,8 +21,7 @@ using UsuarioApi.Services;
 namespace UsuarioApi
 {
     public class Startup
-    {
-        private readonly string _MyAllowSpecificOrigins = "MyAllowSpecificOrigins";
+    { 
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
