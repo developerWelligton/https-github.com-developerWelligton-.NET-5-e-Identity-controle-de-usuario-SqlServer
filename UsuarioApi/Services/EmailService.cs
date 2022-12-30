@@ -24,6 +24,14 @@ namespace UsuarioApi.Services
             Enviar(mensagemDeEmail);
         }
 
+        [Obsolete]
+        public void EnviarEmailRecuperacaoSenha(string[] destinatario, string assunto, string code)
+        {
+            Mensagem mensagem = new Mensagem(destinatario, assunto, code);
+            var mensagemDeEmail = CriaCorpoDoEmail(mensagem);
+            Enviar(mensagemDeEmail);
+        }
+
         private void Enviar(MimeMessage mensagemDeEmail)
         {
             using (var client = new SmtpClient())

@@ -13,11 +13,13 @@ namespace UsuarioApi.Services
     {
         private SignInManager<CustomIdentityUser> _signInManager;
         private TokenService _tokenService;
+        private EmailService _emailService;
 
-        public LoginService(SignInManager<CustomIdentityUser> signInManager, TokenService tokenService )
+        public LoginService(SignInManager<CustomIdentityUser> signInManager, TokenService tokenService,EmailService emailService)
         {
             _signInManager = signInManager;
             _tokenService = tokenService;
+            _emailService = emailService;
         }
 
         public Result LogaUsuario(LoginRequest request)
@@ -38,6 +40,7 @@ namespace UsuarioApi.Services
             return Result.Fail("Login Falhou");
         }
 
+        [Obsolete]
         public Result SolicitaResetSenhaUsuario(SolicitaResetRequest request)
         {
             CustomIdentityUser identityUser = RecuperaUsuarioPorEmail(request.Email);
@@ -45,6 +48,7 @@ namespace UsuarioApi.Services
             if (identityUser != null)
             {
                 var codigoDeRecuperação = _signInManager.UserManager.GeneratePasswordResetTokenAsync(identityUser).Result;
+                _emailService.EnviarEmailRecuperacaoSenha(new[] { request.Email }, "Codigo De Recuperação", codigoDeRecuperação);
                 return Result.Ok().WithSuccess(codigoDeRecuperação);
             }
             return Result.Fail("Falha ao solicitar redefinição");

@@ -18,5 +18,13 @@ namespace UsuarioApi.Models
             Assunto = assunto;
             Conteudo = $"http://localhost:6000/ativa?UsuarioId={usuarioId}&CodigoDeAtivacao={codigo}";
         }
+        [System.Obsolete]
+        public Mensagem(IEnumerable<string> destinatario, string assunto, string codigo)
+        {
+            Destinatario = new List<MailboxAddress>();
+            Destinatario.AddRange(destinatario.Select(d => new MailboxAddress(d)));
+            Assunto = assunto;
+            Conteudo = $"{codigo}";
+        }
     }
 }
