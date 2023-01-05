@@ -68,7 +68,13 @@ namespace filmesAPIalura
                 });
             });
 
+
             services.AddSingleton<IAuthorizationHandler, IdadeMinimaHandler>();
+
+            services.AddCors(option => {
+                option.AddPolicy("AllowSpecificOrigin", policy => policy.WithOrigins("http://localhost:4200"));
+                option.AddPolicy("AllowGetMethod", policy => policy.WithMethods("POST"));
+            });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -89,9 +95,11 @@ namespace filmesAPIalura
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "filmesAPIalura v1"));
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors(
+        options => options.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials());
 
             app.UseAuthentication();
 
