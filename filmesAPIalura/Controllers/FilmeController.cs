@@ -50,7 +50,6 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "admin")]
         public IActionResult AtualizaFilme(int id, [FromBody] UpdateFilmeDto filmeDto)
         {
             Result resultado = _filmeService.AtualizaFilme(id, filmeDto);
@@ -59,7 +58,6 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "admin")]
         public IActionResult DeletarFilme(int id)
         {
             Result resultado  = _filmeService.DeletarFilme(id);
