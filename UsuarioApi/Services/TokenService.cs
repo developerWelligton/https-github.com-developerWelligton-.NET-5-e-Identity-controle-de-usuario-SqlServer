@@ -19,15 +19,22 @@ namespace UsuarioApi.Services
                 new Claim(ClaimTypes.Role, role),
                 new Claim(ClaimTypes.DateOfBirth, usuario.DataNascimento.ToString())
             };
+            Claim[] direitosUsuarioDTO = new Claim[]
+           {
+                new Claim("username",direitosUsuario[0].Value),
+                new Claim("id",direitosUsuario[1].Value),
+                new Claim("role", direitosUsuario[2].Value),
+                new Claim("DataNascimento", direitosUsuario[3].Value)
+           };
 
             //gerar chave
             var chave = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes("0asdsadasdsad06asdasdasdasd09asdasdsad0sa9")
                 );
             var credencias = new SigningCredentials(chave, SecurityAlgorithms.HmacSha256);
-
+            
             var token = new JwtSecurityToken(
-                claims: direitosUsuario,
+                claims: direitosUsuarioDTO,
                 signingCredentials: credencias,
                 expires: DateTime.UtcNow.AddHours(1)
                 );
