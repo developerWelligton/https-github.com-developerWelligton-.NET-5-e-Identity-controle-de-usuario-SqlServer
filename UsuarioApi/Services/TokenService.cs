@@ -16,8 +16,8 @@ namespace UsuarioApi.Services
             {
                 new Claim("username",usuario.UserName),
                 new Claim("id",usuario.Id.ToString()),
-                new Claim("role", role),
-                new Claim("dataNascimento", usuario.DataNascimento.ToString())
+                new Claim(ClaimTypes.Role, role),
+                new Claim(ClaimTypes.DateOfBirth, usuario.DataNascimento.ToString())
             };
 
             //gerar chave

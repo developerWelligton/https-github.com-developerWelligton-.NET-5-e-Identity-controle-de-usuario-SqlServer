@@ -58,7 +58,6 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "admin")]
         public IActionResult DeletarFilme(int id)
         {
             Result resultado  = _filmeService.DeletarFilme(id);
