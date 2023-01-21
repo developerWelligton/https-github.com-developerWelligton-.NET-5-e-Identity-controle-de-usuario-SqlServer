@@ -7,6 +7,7 @@ using FilmesApi.Data;
 using FilmesAPI.Data.Dtos;
 using filmesAPIalura.Data.Dtos.Gerente;
 using filmesAPIalura.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace filmesAPIalura.Controllers
@@ -31,6 +32,12 @@ namespace filmesAPIalura.Controllers
             _context.Gerentes.Add(gerente);
             _context.SaveChanges();
             return CreatedAtAction(nameof(RecuperaGerentesPorId), new { Id = gerente.Id }, gerente);
+        }
+
+        [HttpGet]
+        public IEnumerable<Gerente> RecuperaGerente()
+        {
+            return _context.Gerentes;
         }
 
         [HttpGet("{id}")]
@@ -59,5 +66,7 @@ namespace filmesAPIalura.Controllers
             _context.SaveChanges();
             return NoContent();
         }
+
+       
     }
 }
