@@ -4,9 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using FilmesApi.Data;
+using FilmesAPI.Data;
 using FilmesAPI.Data.Dtos;
 using filmesAPIalura.Data.Dtos.Gerente;
 using filmesAPIalura.Models;
+using filmesAPIalura.Services;
+using FluentResults;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,11 +21,13 @@ namespace filmesAPIalura.Controllers
     {
         private AppDbContext _context;
         private IMapper _mapper;
+         
+         
 
-        public GerenteController(AppDbContext context, IMapper mapper)
+        public GerenteController(AppDbContext context, IMapper mapper )
         {
             _context = context;
-            _mapper = mapper;
+            _mapper = mapper; 
         }
 
         [HttpPost]
@@ -49,6 +54,21 @@ namespace filmesAPIalura.Controllers
                 ReadGerenteDto gerenteDto = _mapper.Map<ReadGerenteDto>(gerente);
 
                 return Ok(gerenteDto);
+            }
+            return NotFound();
+
+        }
+
+        [HttpPut("{id}")]
+        [Authorize(Roles = "admin")]
+        public IActionResult AtualizaGerente(int id, [FromBody]  UpdateGerenteDto gerenteDto)
+        {
+            Gerente gerente = _context.Gerentes.FirstOrDefault(gerente => gerente.Id == id);
+            if (gerente != null)
+            { 
+                _mapper.Map(gerenteDto, gerente);
+                _context.SaveChanges(); 
+                return Ok();
             }
             return NotFound();
 

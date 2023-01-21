@@ -4,7 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using FilmesAPI.Data.Dtos;
 using FilmesAPI.Models;
+using FluentResults;
 
 namespace filmesAPIalura.Models
 {
@@ -16,5 +18,7 @@ namespace filmesAPIalura.Models
         public string Nome { get; set; }
         [JsonIgnore]
         public virtual List<Cinema> Cinemas { get; set; }
+
+         
     }
 }

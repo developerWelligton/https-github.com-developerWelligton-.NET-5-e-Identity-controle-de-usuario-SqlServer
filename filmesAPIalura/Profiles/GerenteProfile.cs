@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using FilmesAPI.Data;
 using filmesAPIalura.Data.Dtos.Gerente;
 using filmesAPIalura.Models;
 
@@ -18,6 +19,8 @@ namespace filmesAPIalura.Profiles
                 .MapFrom(gerente => gerente.Cinemas.Select
                 (c => new { c.Id, c.Nome, c.Endereco, c.EnderecoId })
                 ));
+            CreateMap<UpdateGerenteDto, Gerente>();
+
         }
     }
 }
