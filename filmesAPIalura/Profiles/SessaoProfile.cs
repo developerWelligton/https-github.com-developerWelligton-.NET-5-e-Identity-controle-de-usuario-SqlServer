@@ -14,6 +14,7 @@ namespace filmesAPIalura.Profiles
         {
             CreateMap<CreateSessaoDto, Sessao>();
             CreateMap<Sessao, ReadSessaoDto>();
+            CreateMap<UpdateSessaoDto, Sessao>();
         }
      
     }

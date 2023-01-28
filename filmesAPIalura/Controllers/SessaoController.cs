@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using FilmesApi.Data;
+using FilmesAPI.Data.Dtos;
 using filmesAPIalura.Data.Dtos.Sessao;
 using filmesAPIalura.Models;
 using filmesAPIalura.Services;
@@ -61,6 +62,19 @@ namespace filmesAPIalura.Controllers
                 return NotFound();
             }
             _context.Remove(sessao);
+            _context.SaveChanges();
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult AtualizaSessao(int id, [FromBody] UpdateSessaoDto sessaoDto)
+        {
+            Sessao sessao = _context.Sessoes.FirstOrDefault(sessao => sessao.id == id);
+            if (sessao == null)
+            {
+                return NotFound();
+            }
+            _mapper.Map(sessaoDto, sessao);
             _context.SaveChanges();
             return NoContent();
         }
