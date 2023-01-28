@@ -6,6 +6,8 @@ using AutoMapper;
 using FilmesApi.Data;
 using filmesAPIalura.Data.Dtos.Sessao;
 using filmesAPIalura.Models;
+using filmesAPIalura.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace filmesAPIalura.Controllers
@@ -15,12 +17,12 @@ namespace filmesAPIalura.Controllers
     public class SessaoController : ControllerBase
     {
         private AppDbContext _context;
-        private IMapper _mapper;
+        private IMapper _mapper; 
 
-        public SessaoController(AppDbContext context, IMapper mapper)
+        public SessaoController(AppDbContext context, IMapper mapper )
         {
             _context = context;
-            _mapper = mapper;
+            _mapper = mapper; 
         }
 
         [HttpPost]
@@ -43,6 +45,12 @@ namespace filmesAPIalura.Controllers
             }
             return NotFound();
         }
-         
+
+        [HttpGet]
+        public IEnumerable<Sessao> RecuperaSessoes()
+        {
+            return _context.Sessoes;
+        }
+
     }
 }
