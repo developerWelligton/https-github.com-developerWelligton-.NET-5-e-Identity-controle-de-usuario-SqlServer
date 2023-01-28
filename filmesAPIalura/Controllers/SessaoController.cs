@@ -52,5 +52,18 @@ namespace filmesAPIalura.Controllers
             return _context.Sessoes;
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult DeletaSessao(int id)
+        {
+            Sessao sessao = _context.Sessoes.FirstOrDefault(sessao => sessao.id == id);
+            if (sessao == null)
+            {
+                return NotFound();
+            }
+            _context.Remove(sessao);
+            _context.SaveChanges();
+            return NoContent();
+        }
+
     }
 }
