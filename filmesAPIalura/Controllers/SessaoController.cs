@@ -27,6 +27,7 @@ namespace filmesAPIalura.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public IActionResult AdicionaSessao(CreateSessaoDto dto)
         {
             Sessao sessao = _mapper.Map<Sessao>(dto);
@@ -54,6 +55,7 @@ namespace filmesAPIalura.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult DeletaSessao(int id)
         {
             Sessao sessao = _context.Sessoes.FirstOrDefault(sessao => sessao.id == id);
@@ -67,6 +69,7 @@ namespace filmesAPIalura.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult AtualizaSessao(int id, [FromBody] UpdateSessaoDto sessaoDto)
         {
             Sessao sessao = _context.Sessoes.FirstOrDefault(sessao => sessao.id == id);
