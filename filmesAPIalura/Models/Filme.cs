@@ -25,6 +25,8 @@ namespace filmesAPIalura.Models
 
         public int ClassificacaoEtaria { get; set; }
 
+        public DateTime dataCriacao { get; set; }
+
         [JsonIgnore]
         public virtual List<Sessao> Sessoes { get; set; }
         
