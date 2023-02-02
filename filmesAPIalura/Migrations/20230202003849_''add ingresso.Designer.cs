@@ -4,14 +4,16 @@ using FilmesApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace filmesAPIalura.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230202003849_''add ingresso")]
+    partial class addingresso
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -127,7 +129,8 @@ namespace filmesAPIalura.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SessaoId");
+                    b.HasIndex("SessaoId")
+                        .IsUnique();
 
                     b.ToTable("Ingressos");
                 });
@@ -179,8 +182,8 @@ namespace filmesAPIalura.Migrations
             modelBuilder.Entity("filmesAPIalura.Models.Ingresso", b =>
                 {
                     b.HasOne("filmesAPIalura.Models.Sessao", "Sessao")
-                        .WithMany("Ingressos")
-                        .HasForeignKey("SessaoId")
+                        .WithOne("Ingresso")
+                        .HasForeignKey("filmesAPIalura.Models.Ingresso", "SessaoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -228,7 +231,7 @@ namespace filmesAPIalura.Migrations
 
             modelBuilder.Entity("filmesAPIalura.Models.Sessao", b =>
                 {
-                    b.Navigation("Ingressos");
+                    b.Navigation("Ingresso");
                 });
 #pragma warning restore 612, 618
         }
