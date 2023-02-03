@@ -4,9 +4,12 @@ using FilmesApi.Models;
 using FilmesAPI.Data.Dtos;
 using filmesAPIalura.Data.Dtos.Ingresso;
 using filmesAPIalura.Models;
+using FluentResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Any;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 
@@ -35,10 +38,27 @@ namespace FilmesAPI.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Ingresso> RecuperaIngressos()
+        public IEnumerable<IngressoQuantidade> RecuperaIngressos()
         {
-            return _context.Ingressos;
+            var result = from sessao in _context.Ingressos
+                         group sessao by new { sessao.SessaoId } into g
+                         select new
+                         {
+                             g.Key.SessaoId,
+                             Total = g.Count()
+                         };
+
+            List<IngressoQuantidade> list = new List<IngressoQuantidade>();
+            foreach (var item in result)
+            {
+                var ingresso = new IngressoQuantidade();
+                ingresso.SessaoId = item.SessaoId;
+                ingresso.Total = item.Total;
+                list.Add(ingresso);
+            }
+            return  list;
         }
+      
 
         [HttpGet("{id}")]
         public IActionResult RecuperaIngressosPorId(int id)

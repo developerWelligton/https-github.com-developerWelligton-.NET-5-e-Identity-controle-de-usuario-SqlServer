@@ -7,16 +7,11 @@ using System.Threading.Tasks;
 
 namespace filmesAPIalura.Models
 {
-    public class Ingresso
-    {
-        [Key]
-        [Required]
-        public int Id { get; set; }
-
-        [JsonIgnore]
-        public virtual Sessao Sessao { get; set; }
-
+    public class IngressoQuantidade
+    {  
         public int SessaoId { get; set; }
 
+        public int Total { get; set; }
+        
     }
 }

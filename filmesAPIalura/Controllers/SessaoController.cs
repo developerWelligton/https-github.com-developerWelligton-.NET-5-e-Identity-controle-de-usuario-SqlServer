@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using AutoMapper;
+using Castle.Core.Resource;
 using FilmesApi.Data;
 using FilmesAPI.Data.Dtos;
 using filmesAPIalura.Data.Dtos.Sessao;
 using filmesAPIalura.Models;
 using filmesAPIalura.Services;
+using FluentResults;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 
 namespace filmesAPIalura.Controllers
 {
@@ -35,6 +39,7 @@ namespace filmesAPIalura.Controllers
             _context.SaveChanges();
             return CreatedAtAction(nameof(RecuperaSessoesPorId), new { Id = sessao.id }, sessao);
         }
+
         [HttpGet("{id}")]
         public IActionResult RecuperaSessoesPorId(int id)
         {
@@ -42,6 +47,7 @@ namespace filmesAPIalura.Controllers
             if (sessao != null)
             {
                 ReadSessaoDto sessaoDto = _mapper.Map<ReadSessaoDto>(sessao);
+                 
 
                 return Ok(sessaoDto);
             }
@@ -51,6 +57,7 @@ namespace filmesAPIalura.Controllers
         [HttpGet]
         public IEnumerable<Sessao> RecuperaSessoes()
         {
+
             return _context.Sessoes;
         }
 

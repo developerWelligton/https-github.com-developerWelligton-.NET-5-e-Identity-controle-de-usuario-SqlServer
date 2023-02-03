@@ -8,5 +8,6 @@ namespace filmesAPIalura.Data.Dtos.Ingresso
     public class ReadIngressoDto
     {
         public int Id { get; set; }
+        public int SessaoId { get; set; }
     }
 }
