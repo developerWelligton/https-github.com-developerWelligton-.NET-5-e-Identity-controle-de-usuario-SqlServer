@@ -58,7 +58,14 @@ namespace FilmesAPI.Controllers
             }
             return  list;
         }
-      
+
+        [HttpGet,Route("ingressos")] 
+        public IEnumerable<Ingresso> RecuperaIngressoss()
+        {
+            return _context.Ingressos;
+                         
+        }
+
 
         [HttpGet("{id}")]
         public IActionResult RecuperaIngressosPorId(int id)
