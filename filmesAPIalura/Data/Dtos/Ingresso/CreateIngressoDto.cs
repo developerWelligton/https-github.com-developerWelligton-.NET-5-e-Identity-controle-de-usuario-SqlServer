@@ -11,6 +11,6 @@ namespace filmesAPIalura.Data.Dtos.Ingresso
         public string Nome { get; set; }
         public string Sessao { get; set; }
         public int SessaoId { get; set; }
-       
+       public string Titulo { get; set; }
     }
 }

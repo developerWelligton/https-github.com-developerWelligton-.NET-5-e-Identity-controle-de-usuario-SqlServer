@@ -17,7 +17,7 @@ namespace filmesAPIalura.Models
         public virtual Sessao Sessao { get; set; }
 
         public int SessaoId { get; set; }
-        public string Titulo { get; set; }
+          
 
     }
 }
