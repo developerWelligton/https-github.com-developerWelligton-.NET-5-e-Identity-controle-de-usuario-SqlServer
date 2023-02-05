@@ -41,10 +41,12 @@ namespace FilmesAPI.Controllers
         public IEnumerable<IngressoQuantidade> RecuperaIngressos()
         {
             var result = from sessao in _context.Ingressos
-                         group sessao by new { sessao.SessaoId } into g
+                         join filme in _context.Filmes on sessao.Sessao.FilmeId equals filme.Id
+                         group sessao by new { sessao.SessaoId, filme.Titulo } into g
                          select new
                          {
                              g.Key.SessaoId,
+                             g.Key.Titulo,
                              Total = g.Count()
                          };
 
@@ -52,6 +54,7 @@ namespace FilmesAPI.Controllers
             foreach (var item in result)
             {
                 var ingresso = new IngressoQuantidade();
+                ingresso.Titulo = item.Titulo;
                 ingresso.SessaoId = item.SessaoId;
                 ingresso.Total = item.Total;
                 list.Add(ingresso);
@@ -64,6 +67,28 @@ namespace FilmesAPI.Controllers
         {
             return _context.Ingressos;
                          
+        }
+
+        [HttpGet, Route("sessao-mais-comprada")]
+        public IActionResult RecuperaIngressoMaisComprado()
+        {
+
+                var result = _context.Ingressos
+                .GroupBy(x => x.SessaoId)
+                .Select(group => new { sessaoId = group.Key, count = group.Count() })
+                .OrderByDescending(x => x.count)
+                .First();
+            var ingresso = new IngressoQuantidade();
+            ingresso.Total = result.count;
+            ingresso.SessaoId = result.sessaoId;
+           return Ok(ingresso);
+        }
+
+        [HttpGet, Route("ingresso-total")]
+        public IActionResult RecuperaTotalIngresso()
+        { 
+            var result = _context.Ingressos.Count(); 
+            return Ok(result);
         }
 
 

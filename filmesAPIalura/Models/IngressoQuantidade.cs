@@ -9,6 +9,7 @@ namespace filmesAPIalura.Models
 {
     public class IngressoQuantidade
     {  
+        public string Titulo { get; set; }
         public int SessaoId { get; set; }
 
         public int Total { get; set; }
