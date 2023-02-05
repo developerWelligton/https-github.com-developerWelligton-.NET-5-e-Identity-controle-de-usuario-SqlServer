@@ -73,15 +73,23 @@ namespace FilmesAPI.Controllers
         public IActionResult RecuperaIngressoMaisComprado()
         {
 
-                var result = _context.Ingressos
-                .GroupBy(x => x.SessaoId)
-                .Select(group => new { sessaoId = group.Key, count = group.Count() })
-                .OrderByDescending(x => x.count)
-                .First();
-            var ingresso = new IngressoQuantidade();
-            ingresso.Total = result.count;
-            ingresso.SessaoId = result.sessaoId;
-           return Ok(ingresso);
+            var result = (from ingresso in _context.Ingressos
+                          join sessao in _context.Sessoes on ingresso.SessaoId equals sessao.id
+                          join filme in _context.Filmes on sessao.FilmeId equals filme.Id
+                          group ingresso by new { sessao.id, filme.Titulo } into g
+                          select new
+                          {
+                              SessaoId = g.Key.id,
+                              Titulo = g.Key.Titulo,
+                              Total = g.Count()
+                          }).OrderByDescending(x => x.Total).First();
+
+            return Ok(new
+            {
+                Titulo = result.Titulo,
+                SessaoId = result.SessaoId,
+                Total = result.Total
+            });
         }
 
         [HttpGet, Route("ingresso-total")]
