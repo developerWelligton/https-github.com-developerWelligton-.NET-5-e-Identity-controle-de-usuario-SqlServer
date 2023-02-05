@@ -88,6 +88,15 @@ namespace filmesAPIalura.Controllers
             _context.SaveChanges();
             return NoContent();
         }
-
+        [HttpGet, Route("cinema-sessao-total")]
+        public IActionResult RecuperaSessoesCinema()
+        {
+            var result = _context.Sessoes
+            .Join(_context.Cinemas, sessao => sessao.CinemaId, cinema => cinema.Id, (sessao, cinema) => new { sessao, cinema })
+            .GroupBy(x => x.cinema.Nome)
+            .Select(group => new { nomeCinema = group.Key, total = group.Count() })
+            .OrderByDescending(x => x.total);
+            return Ok(result);
+        }
     }
 }
